@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Add Food Item - FreshKeeper{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4><i class="fas fa-plus-circle"></i> Add New Food Item</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">
+                                <i class="fas fa-apple-alt"></i> Food Item Name
+                            </label>
+                            <input type="text" class="form-control" id="name" name="name" required
+                                   placeholder="e.g., Organic Bananas">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category" class="form-label">
+                                <i class="fas fa-tags"></i> Category
+                            </label>
+                            <select class="form-select" id="category" name="category" required>
+                                <option value="">Select category...</option>
+                                <option value="fruits">Fruits</option>
+                                <option value="vegetables">Vegetables</option>
+                                <option value="dairy">Dairy</option>
+                                <option value="meat">Meat & Seafood</option>
+                                <option value="grains">Grains & Bread</option>
+                                <option value="canned">Canned Goods</option>
+                                <option value="frozen">Frozen Foods</option>
+                                <option value="beverages">Beverages</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="quantity" class="form-label">
+                                        <i class="fas fa-weight"></i> Quantity
+                                    </label>
+                                    <input type="number" class="form-control" id="quantity" name="quantity" 
+                                           step="0.1" min="0.1" required placeholder="1">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="unit" class="form-label">Unit</label>
+                                    <select class="form-select" id="unit" name="unit" required>
+                                        <option value="">Select unit...</option>
+                                        <option value="pieces">Pieces</option>
+                                        <option value="lbs">Pounds (lbs)</option>
+                                        <option value="kg">Kilograms (kg)</option>
+                                        <option value="oz">Ounces (oz)</option>
+                                        <option value="grams">Grams</option>
+                                        <option value="liters">Liters</option>
+                                        <option value="ml">Milliliters</option>
+                                        <option value="cups">Cups</option>
+                                        <option value="packages">Packages</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="purchase_date" class="form-label">
+                                <i class="fas fa-calendar"></i> Purchase Date
+                            </label>
+                            <input type="date" class="form-control" id="purchase_date" name="purchase_date" 
+                                   required value="{{ today }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="storage_condition" class="form-label">
+                                <i class="fas fa-thermometer-half"></i> Storage Condition
+                            </label>
+                            <select class="form-select" id="storage_condition" name="storage_condition" required>
+                                <option value="">Select storage...</option>
+                                <option value="refrigerated">Refrigerated (35-40°F)</option>
+                                <option value="frozen">Frozen (0°F or below)</option>
+                                <option value="pantry">Pantry (Cool & Dry)</option>
+                                <option value="room_temp">Room Temperature</option>
+                            </select>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>AI Prediction:</strong> Our machine learning model will predict the expiry date 
+                            based on the category, storage conditions, and historical data.
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ url_for('inventory') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Add Item
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Set today's date as default
+document.getElementById('purchase_date').valueAsDate = new Date();
+</script>
+{% endblock %}

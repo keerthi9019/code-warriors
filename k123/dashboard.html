@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - FreshKeeper{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-6">
+                <i class="fas fa-tachometer-alt text-primary"></i> Welcome back, {{ current_user.username }}!
+            </h1>
+            <p class="lead text-muted">Here's your food waste overview</p>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3>{{ total_items }}</h3>
+                            <p class="mb-0">Total Items</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-boxes fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3>{{ items_expiring }}</h3>
+                            <p class="mb-0">Expiring Soon</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-exclamation-triangle fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3>85%</h3>
+                            <p class="mb-0">Fresh Items</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-leaf fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h3>$42</h3>
+                            <p class="mb-0">Money Saved</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-dollar-sign fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expiring Items Alert -->
+    {% if expiring_soon %}
+    <div class="row mb-4">
+        <div class="col">
+            <div class="alert alert-warning">
+                <h5><i class="fas fa-exclamation-triangle"></i> Items Expiring Soon</h5>
+                <p>The following items need your attention:</p>
+                <div class="row">
+                    {% for item_data in expiring_soon %}
+                    <div class="col-md-6 col-lg-4 mb-2">
+                        <div class="card border-warning">
+                            <div class="card-body py-2">
+                                <strong>{{ item_data.item.name }}</strong><br>
+                                <small class="text-muted">
+                                    {% if item_data.days_left == 0 %}
+                                        <span class="text-danger">Expires today!</span>
+                                    {% elif item_data.days_left == 1 %}
+                                        <span class="text-warning">Expires tomorrow</span>
+                                    {% else %}
+                                        <span class="text-warning">{{ item_data.days_left }} days left</span>
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="mt-3">
+                    <a href="{{ url_for('recipes') }}" class="btn btn-warning">
+                        <i class="fas fa-utensils"></i> Find Recipes
+                    </a>
+                    <a href="{{ url_for('preservation') }}" class="btn btn-outline-warning">
+                        <i class="fas fa-seedling"></i> Preservation Tips
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col">
+            <h4><i class="fas fa-bolt"></i> Quick Actions</h4>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <a href="{{ url_for('add_food') }}" class="btn btn-primary w-100">
+                        <i class="fas fa-plus-circle"></i><br>
+                        Add Food Item
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="{{ url_for('inventory') }}" class="btn btn-success w-100">
+                        <i class="fas fa-boxes"></i><br>
+                        View Inventory
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="{{ url_for('recipes') }}" class="btn btn-warning w-100">
+                        <i class="fas fa-utensils"></i><br>
+                        Find Recipes
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="{{ url_for('analytics') }}" class="btn btn-info w-100">
+                        <i class="fas fa-chart-line"></i><br>
+                        View Analytics
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Items -->
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-clock"></i> Recent Items</h5>
+                </div>
+                <div class="card-body">
+                    {% if food_items %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Category</th>
+                                    <th>Expires In</th>
+                                    <th>Storage</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in food_items[:5] %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ item.name }}</strong><br>
+                                        <small class="text-muted">{{ item.quantity }} {{ item.unit }}</small>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary">{{ item.category.title() }}</span>
+                                    </td>
+                                    <td>
+                                        {% set days_left = (item.predicted_expiry - moment().date()).days %}
+                                        {% if days_left < 0 %}
+                                            <span class="text-danger">Expired</span>
+                                        {% elif days_left == 0 %}
+                                            <span class="text-warning">Today</span>
+                                        {% elif days_left <= 3 %}
+                                            <span class="text-warning">{{ days_left }} days</span>
+                                        {% else %}
+                                            <span class="text-success">{{ days_left }} days</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <small class="text-muted">{{ item.storage_condition.replace('_', ' ').title() }}</small>
+                                    </td>
+                                    <td>
+                                        {% set days_left = (item.predicted_expiry - moment().date()).days %}
+                                        {% if days_left <= 0 %}
+                                            <i class="fas fa-circle text-danger" title="Expired"></i>
+                                        {% elif days_left <= 3 %}
+                                            <i class="fas fa-circle text-warning" title="Expiring Soon"></i>
+                                        {% else %}
+                                            <i class="fas fa-circle text-success" title="Fresh"></i>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center">
+                        <a href="{{ url_for('inventory') }}" class="btn btn-outline-primary">
+                            View All Items <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">No items in your inventory yet</h5>
+                        <p class="text-muted">Add your first food item to get started!</p>
+                        <a href="{{ url_for('add_food') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add First Item
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Add moment.js for date calculations
+function moment() {
+    return {
+        date: () => new Date().toISOString().split('T')[0]
+    };
+}
+</script>
+{% endblock %}

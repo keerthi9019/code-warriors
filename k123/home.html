@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    Reduce Food Waste with <span class="text-warning">AI-Powered</span> Predictions
+                </h1>
+                <p class="lead mb-4">
+                    FreshKeeper uses machine learning to predict food expiration dates and provides personalized 
+                    recommendations to help you save money and reduce waste.
+                </p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{{ url_for('register') }}" class="btn btn-warning btn-lg">
+                        <i class="fas fa-rocket"></i> Get Started Free
+                    </a>
+                    <a href="#features" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-play-circle"></i> Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="fas fa-apple-alt" style="font-size: 12rem; opacity: 0.8;"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Smart Features for Zero Waste</h2>
+            <p class="lead text-muted">Everything you need to track, predict, and prevent food waste</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-brain feature-icon mb-3"></i>
+                        <h5 class="card-title">AI Expiry Prediction</h5>
+                        <p class="card-text">
+                            Machine learning algorithms predict when your food will expire based on 
+                            storage conditions and purchase history.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-utensils feature-icon mb-3"></i>
+                        <h5 class="card-title">Recipe Suggestions</h5>
+                        <p class="card-text">
+                            Get personalized recipe recommendations for ingredients that are about 
+                            to expire to minimize waste.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-chart-line feature-icon mb-3"></i>
+                        <h5 class="card-title">Waste Analytics</h5>
+                        <p class="card-text">
+                            Track your progress with detailed analytics showing how much money 
+                            and food you've saved over time.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-seedling feature-icon mb-3"></i>
+                        <h5 class="card-title">Preservation Tips</h5>
+                        <p class="card-text">
+                            Learn expert tips and techniques to extend the life of your food 
+                            and keep ingredients fresh longer.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-hand-holding-heart feature-icon mb-3"></i>
+                        <h5 class="card-title">Food Donation</h5>
+                        <p class="card-text">
+                            Find local food banks and donation centers to share surplus food 
+                            with those in need in your community.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="fas fa-mobile-alt feature-icon mb-3"></i>
+                        <h5 class="card-title">Smart Notifications</h5>
+                        <p class="card-text">
+                            Receive timely alerts about expiring items so you never forget 
+                            to use food before it goes bad.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Making a Real Impact</h2>
+            <p class="lead text-muted">Join thousands of users reducing food waste worldwide</p>
+        </div>
+
+        <div class="row g-4 text-center">
+            <div class="col-md-3">
+                <div class="stats-card card">
+                    <div class="card-body">
+                        <h3 class="display-4 fw-bold">40%</h3>
+                        <p class="mb-0">Average Waste Reduction</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stats-card card">
+                    <div class="card-body">
+                        <h3 class="display-4 fw-bold">$500</h3>
+                        <p class="mb-0">Average Annual Savings</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stats-card card">
+                    <div class="card-body">
+                        <h3 class="display-4 fw-bold">10K+</h3>
+                        <p class="mb-0">Meals Saved Daily</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stats-card card">
+                    <div class="card-body">
+                        <h3 class="display-4 fw-bold">95%</h3>
+                        <p class="mb-0">User Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5" style="background: linear-gradient(135deg, #28a745, #20c997);">
+    <div class="container text-center text-white">
+        <h2 class="display-5 fw-bold mb-4">Ready to Start Saving?</h2>
+        <p class="lead mb-4">
+            Join the movement to reduce food waste and save money. Sign up for free today!
+        </p>
+        <a href="{{ url_for('register') }}" class="btn btn-warning btn-lg">
+            <i class="fas fa-user-plus"></i> Create Your Free Account
+        </a>
+    </div>
+</section>
+{% endblock %}

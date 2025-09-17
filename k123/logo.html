@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="sample1.css">
+  <meta charset="utf-8" />
+  <title>Simple Agri Food Logo (HTML only)</title>
+ 
+</head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#f8fff6;font-family:Arial,sans-serif;">
+
+  <!-- Logo + label container -->
+  <div style="text-align:center;">
+    <!-- Inline SVG logo (leaf + wheat + spoon) -->
+    <svg viewBox="0 0 200 200" width="180" height="180" role="img" aria-label="Agriculture and food logo">
+      <!-- circle background -->
+      <circle cx="100" cy="100" r="94" fill="#ffffff" stroke="#ddefe0" stroke-width="2"/>
+      <!-- leaf (left) -->
+      <path d="M70 120 C60 90 80 60 110 70 C95 95 85 115 70 120 Z" fill="#5aa64a"/>
+      <!-- wheat (right) -->
+      <g transform="translate(110,60) scale(0.9)">
+        <rect x="14" y="28" width="4" height="56" rx="2" fill="#c98e2c"/>
+        <ellipse cx="16" cy="8" rx="8" ry="4" fill="#e6b85a"/>
+        <ellipse cx="18" cy="20" rx="7" ry="4" fill="#e6b85a"/>
+        <ellipse cx="16" cy="34" rx="6" ry="4" fill="#e6b85a"/>
+      </g>
+      <!-- spoon (center) -->
+      <g transform="translate(72,100) rotate(-10)">
+        <ellipse cx="24" cy="-6" rx="14" ry="10" fill="#fffdf8" stroke="#6b4423" stroke-width="1"/>
+        <rect x="22" y="4" width="6" height="44" rx="3" fill="#6b4423"/>
+      </g>
+    </svg>
+
+    <!-- Brand text -->
+    <div style="margin-top:8px;">
+      <div style="font-weight:700;color:#276a34;font-size:18px;">GreenFields</div>
+      <div style="color:#6b8c6a;font-size:13px;">Agri & Food Solutions</div>
+    </div>
+  </div>
+<script src="sample1.css"></script>
+</body>
+
+</html>

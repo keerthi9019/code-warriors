@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+
+{% block title %}Donate Food - FreshKeeper{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-6">
+                <i class="fas fa-hand-holding-heart text-primary"></i> Food Donation
+            </h1>
+            <p class="lead text-muted">Share surplus food with those in need in your community</p>
+        </div>
+    </div>
+
+    <!-- Donation Guidelines -->
+    <div class="row mb-5">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-info-circle"></i> Donation Guidelines</h5>
+                </div>
+                <div class="card-body">
+                    <h6>What Can Be Donated:</h6>
+                    <ul class="mb-3">
+                        <li>Non-perishable items within expiration date</li>
+                        <li>Fresh produce that's still good quality</li>
+                        <li>Unopened packaged foods</li>
+                        <li>Canned goods in good condition</li>
+                        <li>Frozen foods (if transportation allows)</li>
+                    </ul>
+
+                    <h6>What Cannot Be Donated:</h6>
+                    <ul class="mb-3">
+                        <li>Expired food items</li>
+                        <li>Opened or partially used products</li>
+                        <li>Home-cooked meals (unless to approved facilities)</li>
+                        <li>Damaged packaging or containers</li>
+                        <li>Items stored improperly</li>
+                    </ul>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-shield-alt"></i>
+                        <strong>Food Safety:</strong> Always check with the receiving organization 
+                        about their specific guidelines and requirements.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <h3 class="display-4">🌟</h3>
+                    <h5>Make a Difference</h5>
+                    <p class="mb-0">Your food donations help reduce waste and feed families in need.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Local Food Banks -->
+    <div class="row mb-5">
+        <div class="col">
+            <h4><i class="fas fa-map-marker-alt"></i> Local Food Banks & Organizations</h4>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-building"></i> Community Food Bank
+                            </h5>
+                            <p class="card-text">
+                                <i class="fas fa-map-marker-alt"></i> 123 Main Street<br>
+                                <i class="fas fa-phone"></i> (555) 123-4567<br>
+                                <i class="fas fa-clock"></i> Mon-Fri: 9AM-5PM
+                            </p>
+                            <p class="text-muted small">
+                                Accepts non-perishables, fresh produce, and frozen items. 
+                                Call ahead to arrange drop-off.
+                            </p>
+                            <a href="tel:555-123-4567" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-phone"></i> Call Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-heart"></i> Local Shelter
+                            </h5>
+                            <p class="card-text">
+                                <i class="fas fa-map-marker-alt"></i> 456 Oak Avenue<br>
+                                <i class="fas fa-phone"></i> (555) 987-6543<br>
+                                <i class="fas fa-clock"></i> Daily: 8AM-8PM
+                            </p>
+                            <p class="text-muted small">
+                                Welcomes fresh produce and non-perishables. 
+                                Especially needs breakfast items and snacks.
+                            </p>
+                            <a href="tel:555-987-6543" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-phone"></i> Call Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-church"></i> Faith Community Kitchen
+                            </h5>
+                            <p class="card-text">
+                                <i class="fas fa-map-marker-alt"></i> 789 Pine Street<br>
+                                <i class="fas fa-phone"></i> (555) 456-7890<br>
+                                <i class="fas fa-clock"></i> Tue, Thu, Sat: 10AM-3PM
+                            </p>
+                            <p class="text-muted small">
+                                Community kitchen serving meals to families. 
+                                Accepts ingredients for meal preparation.
+                            </p>
+                            <a href="tel:555-456-7890" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-phone"></i> Call Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation Apps & Services -->
+    <div class="row mb-5">
+        <div class="col">
+            <h4><i class="fas fa-mobile-alt"></i> Food Sharing Apps & Services</h4>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card border-success">
+                        <div class="card-body text-center">
+                            <i class="fas fa-leaf fa-3x text-success mb-3"></i>
+                            <h5>OLIO</h5>
+                            <p class="card-text">Connect with neighbors to share surplus food locally.</p>
+                            <a href="#" class="btn btn-success">Download App</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card border-info">
+                        <div class="card-body text-center">
+                            <i class="fas fa-utensils fa-3x text-info mb-3"></i>
+                            <h5>Too Good To Go</h5>
+                            <p class="card-text">Save food from businesses that would otherwise be wasted.</p>
+                            <a href="#" class="btn btn-info">Download App</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card border-warning">
+                        <div class="card-body text-center">
+                            <i class="fas fa-share-alt fa-3x text-warning mb-3"></i>
+                            <h5>ShareWaste</h5>
+                            <p class="card-text">Find local composting and food sharing opportunities.</p>
+                            <a href="#" class="btn btn-warning">Visit Website</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donation Tracker -->
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-clipboard-list"></i> Track Your Donations</h5>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Food Item</label>
+                                    <input type="text" class="form-control" placeholder="e.g., Canned beans">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Quantity</label>
+                                    <input type="number" class="form-control" placeholder="5">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Unit</label>
+                                    <select class="form-select">
+                                        <option>Items</option>
+                                        <option>Pounds</option>
+                                        <option>Bags</option>
+                                        <option>Boxes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Donated To</label>
+                            <select class="form-select">
+                                <option>Select organization...</option>
+                                <option>Community Food Bank</option>
+                                <option>Local Shelter</option>
+                                <option>Faith Community Kitchen</option>
+                                <option>Neighbor (OLIO)</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Date Donated</label>
+                            <input type="date" class="form-control">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Record Donation
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h5><i class="fas fa-chart-bar"></i> Your Donation Impact</h5>
+                    <div class="text-center">
+                        <h3 class="text-success">24</h3>
+                        <p class="mb-2">Items Donated This Month</p>
+
+                        <h3 class="text-info">$156</h3>
+                        <p class="mb-2">Estimated Value</p>
+
+                        <h3 class="text-warning">18 lbs</h3>
+                        <p class="mb-0">Food Diverted from Waste</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h6><i class="fas fa-lightbulb"></i> Pro Tip</h6>
+                    <p class="card-text small">
+                        Many organizations need volunteers! Consider donating your time 
+                        along with food to make an even bigger impact.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

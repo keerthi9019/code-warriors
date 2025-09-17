@@ -1,0 +1,45 @@
+<form id="alertForm">
+  <label>
+    Email:
+    <input type="email" id="email" required placeholder="you@example.com">
+  </label><br><br>
+  <label>
+    Expiry date:
+    <input type="date" id="expiry" required>
+  </label><br><br>
+  <button type="submit">Save Alert</button>
+</form>
+
+<p id="preview"></p>
+
+<script>
+document.getElementById('alertForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const email = document.getElementById('email').value.trim();
+  const expiry = new Date(document.getElementById('expiry').value);
+  const today = new Date();
+  const diffDays = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+
+  let status = "";
+  let color = "";
+
+  if (diffDays < 0) {
+    status = "Expired!";
+    color = "red";
+  } else if (diffDays <= 7) {
+    status = "Expiring Soon!";
+    color = "orange";
+  } else {
+    status = "Safe.";
+    color = "green";
+  }
+
+  // Preview on screen
+  const preview = document.getElementById('preview');
+  preview.textContent = We will send an alert to ${email}: ${status};
+  preview.style.color = color;
+
+  // 👉 Normally here you'd send this info to your server or EmailJS
+});
+</script>

@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - FreshKeeper{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-6">
+                <i class="fas fa-chart-line text-primary"></i> Waste Analytics
+            </h1>
+            <p class="lead text-muted">Track your progress in reducing food waste</p>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <h2 class="display-4">{{ total_items }}</h2>
+                    <p class="mb-0">Total Items Tracked</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <h2 class="display-4">{{ consumed_items }}</h2>
+                    <p class="mb-0">Items Consumed</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-danger text-white">
+                <div class="card-body text-center">
+                    <h2 class="display-4">{{ wasted_items }}</h2>
+                    <p class="mb-0">Items Wasted</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body text-center">
+                    <h2 class="display-4">{{ "%.1f" | format(waste_percentage) }}%</h2>
+                    <p class="mb-0">Waste Rate</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Waste Reduction Progress -->
+    <div class="row mb-5">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-chart-bar"></i> Monthly Waste Trend</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="wasteChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-chart-pie"></i> Waste Distribution</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="pieChart" width="200" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievement Badges -->
+    <div class="row mb-5">
+        <div class="col">
+            <h4><i class="fas fa-trophy"></i> Achievements</h4>
+            <div class="row g-3">
+                {% if waste_percentage < 20 %}
+                <div class="col-md-3">
+                    <div class="card border-success">
+                        <div class="card-body text-center">
+                            <i class="fas fa-medal fa-3x text-success mb-2"></i>
+                            <h6>Waste Warrior</h6>
+                            <small class="text-muted">Less than 20% waste rate</small>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if total_items >= 10 %}
+                <div class="col-md-3">
+                    <div class="card border-info">
+                        <div class="card-body text-center">
+                            <i class="fas fa-boxes fa-3x text-info mb-2"></i>
+                            <h6>Inventory Master</h6>
+                            <small class="text-muted">Tracked 10+ items</small>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if consumed_items >= 5 %}
+                <div class="col-md-3">
+                    <div class="card border-warning">
+                        <div class="card-body text-center">
+                            <i class="fas fa-utensils fa-3x text-warning mb-2"></i>
+                            <h6>Food Saver</h6>
+                            <small class="text-muted">Consumed 5+ items</small>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="col-md-3">
+                    <div class="card border-secondary">
+                        <div class="card-body text-center">
+                            <i class="fas fa-leaf fa-3x text-secondary mb-2"></i>
+                            <h6>Eco Beginner</h6>
+                            <small class="text-muted">Started your journey</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Environmental Impact -->
+    <div class="row">
+        <div class="col">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h4><i class="fas fa-globe"></i> Your Environmental Impact</h4>
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <h3>{{ consumed_items * 2.5 | round(1) }} lbs</h3>
+                            <p>Food Saved from Waste</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h3>${{ consumed_items * 8.5 | round(0) }}</h3>
+                            <p>Money Saved</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h3>{{ consumed_items * 3.2 | round(1) }} lbs</h3>
+                            <p>CO2 Emissions Prevented</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h3>{{ consumed_items * 1.8 | round(0) }} gal</h3>
+                            <p>Water Saved</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Chart.js configuration
+document.addEventListener('DOMContentLoaded', function() {
+    // Monthly waste trend chart
+    const ctx1 = document.getElementById('wasteChart').getContext('2d');
+    const monthlyData = {{ monthly_data | tojson }};
+
+    const labels = Object.keys(monthlyData);
+    const totalData = labels.map(month => monthlyData[month].total);
+    const wastedData = labels.map(month => monthlyData[month].wasted);
+
+    new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Total Items',
+                data: totalData,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Wasted Items',
+                data: wastedData,
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Pie chart for waste distribution
+    const ctx2 = document.getElementById('pieChart').getContext('2d');
+    new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Consumed', 'Wasted', 'Active'],
+            datasets: [{
+                data: [{{ consumed_items }}, {{ wasted_items }}, {{ total_items - consumed_items - wasted_items }}],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(255, 206, 86, 0.8)'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

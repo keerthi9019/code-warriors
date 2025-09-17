@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block title %}Food Inventory - FreshKeeper{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-6">
+            <i class="fas fa-boxes text-primary"></i> Food Inventory
+        </h1>
+        <a href="{{ url_for('add_food') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Item
+        </a>
+    </div>
+
+    {% if food_items %}
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input type="text" class="form-control" id="searchInput" 
+                       placeholder="Search food items...">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" id="categoryFilter">
+                <option value="">All Categories</option>
+                <option value="fruits">Fruits</option>
+                <option value="vegetables">Vegetables</option>
+                <option value="dairy">Dairy</option>
+                <option value="meat">Meat & Seafood</option>
+                <option value="grains">Grains & Bread</option>
+                <option value="canned">Canned Goods</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select class="form-select" id="statusFilter">
+                <option value="">All Items</option>
+                <option value="fresh">Fresh</option>
+                <option value="expiring">Expiring Soon</option>
+                <option value="expired">Expired</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row" id="itemsContainer">
+        {% for item in food_items %}
+        {% set days_left = (item.predicted_expiry - today).days %}
+        <div class="col-md-6 col-lg-4 mb-3 item-card" 
+             data-category="{{ item.category }}" 
+             data-name="{{ item.name.lower() }}"
+             data-status="{% if days_left < 0 %}expired{% elif days_left <= 3 %}expiring{% else %}fresh{% endif %}">
+            <div class="card h-100 
+                {% if days_left < 0 %}expired-item
+                {% elif days_left <= 3 %}expiring-item
+                {% else %}fresh-item{% endif %}">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title mb-0">{{ item.name }}</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
+                                    data-bs-toggle="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item text-success" 
+                                       href="{{ url_for('update_item_status', item_id=item.id, status='consumed') }}">
+                                        <i class="fas fa-check"></i> Mark as Consumed
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-danger" 
+                                       href="{{ url_for('update_item_status', item_id=item.id, status='wasted') }}">
+                                        <i class="fas fa-trash"></i> Mark as Wasted
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <span class="badge bg-secondary">{{ item.category.title() }}</span>
+                        <span class="badge bg-info">{{ item.quantity }} {{ item.unit }}</span>
+                    </div>
+
+                    <p class="card-text">
+                        <small class="text-muted">
+                            <i class="fas fa-calendar"></i> Purchased: {{ item.purchase_date.strftime('%m/%d/%Y') }}<br>
+                            <i class="fas fa-thermometer-half"></i> Storage: {{ item.storage_condition.replace('_', ' ').title() }}
+                        </small>
+                    </p>
+
+                    <div class="mt-auto">
+                        {% if days_left < 0 %}
+                            <div class="alert alert-danger py-2 mb-2">
+                                <i class="fas fa-exclamation-circle"></i> 
+                                Expired {{ (-days_left) }} day(s) ago
+                            </div>
+                        {% elif days_left == 0 %}
+                            <div class="alert alert-warning py-2 mb-2">
+                                <i class="fas fa-exclamation-triangle"></i> 
+                                Expires today!
+                            </div>
+                        {% elif days_left <= 3 %}
+                            <div class="alert alert-warning py-2 mb-2">
+                                <i class="fas fa-clock"></i> 
+                                Expires in {{ days_left }} day(s)
+                            </div>
+                        {% else %}
+                            <div class="alert alert-success py-2 mb-2">
+                                <i class="fas fa-leaf"></i> 
+                                Fresh for {{ days_left }} more days
+                            </div>
+                        {% endif %}
+
+                        <small class="text-muted">
+                            Expected expiry: {{ item.predicted_expiry.strftime('%m/%d/%Y') }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div id="noResults" class="text-center py-5" style="display: none;">
+        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+        <h5 class="text-muted">No items found</h5>
+        <p class="text-muted">Try adjusting your search or filter criteria.</p>
+    </div>
+
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-inbox fa-4x text-muted mb-4"></i>
+        <h3 class="text-muted">Your inventory is empty</h3>
+        <p class="text-muted mb-4">Start tracking your food items to reduce waste and save money!</p>
+        <a href="{{ url_for('add_food') }}" class="btn btn-primary btn-lg">
+            <i class="fas fa-plus"></i> Add Your First Item
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+{% if food_items %}
+<script>
+// Search and filter functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const itemCards = document.querySelectorAll('.item-card');
+    const noResults = document.getElementById('noResults');
+
+    function filterItems() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedCategory = categoryFilter.value;
+        const selectedStatus = statusFilter.value;
+        let visibleCount = 0;
+
+        itemCards.forEach(card => {
+            const name = card.dataset.name;
+            const category = card.dataset.category;
+            const status = card.dataset.status;
+
+            const matchesSearch = name.includes(searchTerm);
+            const matchesCategory = !selectedCategory || category === selectedCategory;
+            const matchesStatus = !selectedStatus || status === selectedStatus;
+
+            if (matchesSearch && matchesCategory && matchesStatus) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    searchInput.addEventListener('input', filterItems);
+    categoryFilter.addEventListener('change', filterItems);
+    statusFilter.addEventListener('change', filterItems);
+});
+</script>
+{% endif %}
+{% endblock %}
